@@ -17,14 +17,14 @@ Compute the Shapley values from marginal contributions of attributes.
 }
 \examples{
 factors <- getFactorList(
- model = "outcome",
+ equation = "outcome",
  model_eco = exTobitModel,
  database = exData,
  residuals = FALSE)
 coa <- getCoalitions(factors_list = factors)
 distrib <- getShapleyDistrib(
  model_eco = exTobitModel,
- model = "outcome",
+ equation = "outcome",
  database = exData)
 ineq <- vector()
 for(i in 1:3){
@@ -32,7 +32,7 @@ for(i in 1:3){
    coalition = coa[i, ],
    factors_list = factors,
    model_eco = exTobitModel,
-   model = "outcome",
+   equation = "outcome",
    measure = Atkinson,
    database = exData,
    transfo = exp,
