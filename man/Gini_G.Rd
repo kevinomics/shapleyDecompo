@@ -4,7 +4,7 @@
 \alias{Gini_G}
 \title{Gini_G}
 \usage{
-Gini_G(distri, theta)
+Gini_G(distri, theta, weights)
 }
 \arguments{
 \item{distri}{Distribution of outcomes.}
