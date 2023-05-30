@@ -20,7 +20,7 @@
 #' @examples
 #' shapleyDecompo(database = exData,
 #'                model_eco = exTobitModel,
-#'                model = "outcome",
+#'                equation = "outcome",
 #'                equaGame = TRUE,
 #'                correction = NA,
 #'                data_weights = exData$extridf,
@@ -30,7 +30,7 @@
 #'                theta = 1)
 shapleyDecompo <- function(database,
                            model_eco,
-                           model = "selection",
+                           equation = "selection",
                            equaGame = TRUE, # default value is TRUE (equalized game)
                            correction = NA, # default value is NA (no correction)
                            transfo = NULL,
@@ -43,7 +43,7 @@ shapleyDecompo <- function(database,
   # source("script/functions.R")
 
   # get factors list from the difference between model variables and database factors
-  factors_list <- getFactorList(model_eco, database, residuals, model)
+  factors_list <- getFactorList(model_eco, database, residuals, equation)
 
   #Individual weights vector:
   database$weights <- data_weights
@@ -51,7 +51,7 @@ shapleyDecompo <- function(database,
   #Add the residuals term in the decomposition
   if(residuals == TRUE){
     if(class(model_eco)[1] == "selection"){
-      if(model == "selection"){
+      if(equation == "selection"){
         error <- stats::residuals(model_eco, type = "response", part = "selection")
       }else{
         error <- stats::residuals(model_eco)
@@ -69,7 +69,7 @@ n <- length(factors_list)
 
 # Get distributions used for decomposition
 distrib <- getShapleyDistrib(model_eco = model_eco,
-                             model = model,
+                             equation = equation,
                              database = database)
 
 #Define the set of possible coalitions (null coalition excluded)
@@ -89,7 +89,7 @@ ineq <- lapply(1:nrow(coa), function(i){
   getInequality(coalition = coa[i, ],
                 factors_list = factors_list,
                 model_eco = model_eco,
-                model = model,
+                equation = equation,
                 database = database,
                 transfo = transfo,
                 measure = measure,

@@ -4,14 +4,14 @@
 \alias{getShapleyDistrib}
 \title{Obtain the distributions used in the computation of inequalities.}
 \usage{
-getShapleyDistrib(model_eco, database, model)
+getShapleyDistrib(model_eco, database, equation)
 }
 \arguments{
 \item{model_eco}{An econometric model.}
 
 \item{database}{A data.frame with data used to calibrate the model.}
 
-\item{model}{The type of model (either "selection" or "outcome").}
+\item{equation}{Either the "selection" equation or the "outcome" equation from a Tobit II model.}
 }
 \value{
 A list with 1) the distribution of xxx, 2) the distribution of xxx.
@@ -21,13 +21,13 @@ Obtain the distributions used in the computation of inequalities.
 }
 \examples{
 factors <- getFactorList(
- model = "outcome",
+ equation = "outcome",
  model_eco = exTobitModel,
  database = exData,
  residuals = FALSE)
 coa <- getCoalitions(factors_list = factors)
 getShapleyDistrib(
  model_eco = exTobitModel,
- model = "outcome",
+ equation = "outcome",
  database = exData)
 }

@@ -8,7 +8,7 @@ getInequality(
   coalition,
   factors_list,
   model_eco,
-  model = NA,
+  equation,
   measure = Atkinson,
   database,
   transfo = NULL,
@@ -27,7 +27,7 @@ getInequality(
 
 \item{model_eco}{An econometric model.}
 
-\item{model}{The type of model (either "selection" or "outcome").}
+\item{equation}{Either the "selection" equation or the "outcome" equation from a Tobit II model.}
 
 \item{measure}{The function to use to compute the inequality, either Gini(),
 Gini_G(), Entropy(), Atkinson(), Kolm(), Var().}
@@ -58,19 +58,19 @@ Compute the inequality for a given coalition and a given econometric model.
 }
 \examples{
 factors <- getFactorList(
-  model = "outcome",
+  equation = "outcome",
   model_eco = exTobitModel,
   database = exData)
 coa <- getCoalitions(factors_list = factors)
 distrib <- getShapleyDistrib(
   model_eco = exTobitModel,
-  model = "outcome",
+  equation = "outcome",
   database = exData)
 getInequality(
   coalition = coa[1, ],
   factors_list = factors,
   model_eco = exTobitModel,
-  model = "outcome",
+  equation = "outcome",
   measure = Atkinson,
   database = exData,
   transfo = exp,

@@ -4,7 +4,7 @@
 \alias{getFactorList}
 \title{Extract the list of factors from an econometric model}
 \usage{
-getFactorList(model_eco, database, residuals = FALSE, model = NA)
+getFactorList(model_eco, database, residuals = FALSE, equation)
 }
 \arguments{
 \item{model_eco}{An econometric model.}
@@ -13,7 +13,7 @@ getFactorList(model_eco, database, residuals = FALSE, model = NA)
 
 \item{residuals}{Whether residuals are considered or not.}
 
-\item{model}{The type of model (either "selection" or "outcome").}
+\item{equation}{Either the "selection" equation or the "outcome" equation from a Tobit II model.}
 }
 \value{
 A list of factors.
@@ -25,5 +25,5 @@ Extract the list of factors from an econometric model
 getFactorList(model_eco = exTobitModel,
               database = exData,
               residuals = TRUE,
-              model = "outcome")
+              equation = "outcome")
 }

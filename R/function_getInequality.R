@@ -3,7 +3,7 @@
 #' @param coalition The coalition used for the computation of the inequality.
 #' @param factors_list A list of factors in the econemetric model.
 #' @param model_eco An econometric model.
-#' @param model The type of model (either "selection" or "outcome").
+#' @param equation Either the "selection" equation or the "outcome" equation from a Tobit II model.
 #' @param measure The function to use to compute the inequality, either Gini(),
 #'    Gini_G(), Entropy(), Atkinson(), Kolm(), Var().
 #' @param database A data.frame with data used to calibrate the model.
@@ -22,19 +22,19 @@
 #'
 #' @examples
 #' factors <- getFactorList(
-#'   model = "outcome",
+#'   equation = "outcome",
 #'   model_eco = exTobitModel,
 #'   database = exData)
 #' coa <- getCoalitions(factors_list = factors)
 #' distrib <- getShapleyDistrib(
 #'   model_eco = exTobitModel,
-#'   model = "outcome",
+#'   equation = "outcome",
 #'   database = exData)
 #' getInequality(
 #'   coalition = coa[1, ],
 #'   factors_list = factors,
 #'   model_eco = exTobitModel,
-#'   model = "outcome",
+#'   equation = "outcome",
 #'   measure = Atkinson,
 #'   database = exData,
 #'   transfo = exp,
@@ -47,7 +47,7 @@
 getInequality <- function(coalition,
                           factors_list,
                           model_eco,
-                          model = NA,
+                          equation,
                           measure = Atkinson,
                           database,
                           transfo = NULL,
@@ -77,10 +77,10 @@ getInequality <- function(coalition,
   }
 
   if(class(model_eco)[1] == "selection"){
-    if(model == "selection"){
+    if(equation == "selection"){
       modFactors <- attr(model_eco$termsS, "factors")
     }
-    if(model == "outcome"){
+    if(equation == "outcome"){
       modFactors <- attr(model_eco$termsO, "factors")
     }
   }
@@ -108,7 +108,7 @@ getInequality <- function(coalition,
     }
 
     if(class(model_eco)[1] == "selection"){
-      if (model == "selection"){
+      if (equation == "selection"){
         vIndexBeta <- model_eco$param$index$betaS
         cross_terms <- names(
           stats::coef(model_eco)[vIndexBeta])[1L +
@@ -169,7 +169,7 @@ getInequality <- function(coalition,
   }
   if(class(model_eco)[1] == "selection"){
     #List of modalities associated to each covariates, whether there are in or out
-    if(model == "selection"){
+    if(equation == "selection"){
       dClassOut <- attr(model_eco$termsS, "dataClasses")[var_out]
       dClassIn <- attr(model_eco$termsS, "dataClasses")[var_in]
     }else{
@@ -219,7 +219,7 @@ getInequality <- function(coalition,
   }
   if(class(model_eco)[1] == "selection"){
     # Extract the relevant estimated parameters
-    if (model == "selection"){
+    if (equation == "selection"){
       vIndexBeta <- model_eco$param$index$betaS
     } else {
       vIndexBeta <- model_eco$param$index$betaO
@@ -290,7 +290,7 @@ getInequality <- function(coalition,
 
   #Take into consideration the link function:
   if(class(model_eco)[1] == "selection"){
-    if (model != "selection" & model_eco$outcomeVar == "continuous"){
+    if (equation != "selection" & model_eco$outcomeVar == "continuous"){
       outcome <- outcome
     } else { #Probit regression
       outcome <- stats::pnorm(outcome)
