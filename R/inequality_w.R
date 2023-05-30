@@ -74,10 +74,11 @@ Var <- function(distri, weights){
 #'
 #' @param distri Distribution of outcomes.
 #' @param theta Value of sensibility.
+#' @param weights Weights used in the econometric model.
 #'
 #' @return A value of inequality.
 #' @export
-Gini_G <- function(distri, theta){
+Gini_G <- function(distri, theta, weights){
   message("This generalised Gini measure is not suitable with weights.")
   x <- as.numeric(na.omit(distri))
   n <- length(x)
