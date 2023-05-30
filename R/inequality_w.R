@@ -80,7 +80,7 @@ Var <- function(distri, weights){
 #' @export
 Gini_G <- function(distri, theta, weights){
   message("This generalised Gini measure is not suitable with weights.")
-  x <- as.numeric(na.omit(distri))
+  x <- as.numeric(stats::na.omit(distri))
   n <- length(x)
   x <- sort(x)
   r <- seq(1,n)
