@@ -2,6 +2,8 @@
 
 export(Atkinson)
 export(Entropy)
+export(Gini_G)
+export(Gini_w)
 export(Kolm)
 export(Var)
 export(getCoalitions)

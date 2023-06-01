@@ -1,7 +1,7 @@
 #' Obtain the distributions used in the computation of inequalities.
 #'
 #' @param model_eco An econometric model.
-#' @param model The type of model (either "selection" or "outcome").
+#' @param equation Either the "selection" equation or the "outcome" equation from a Tobit II model.
 #' @param database A data.frame with data used to calibrate the model.
 #'
 #' @return A list with 1) the distribution of xxx, 2) the distribution of xxx.
@@ -9,16 +9,16 @@
 #' @export
 #' @examples
 #' factors <- getFactorList(
-#'  model = "outcome",
+#'  equation = "outcome",
 #'  model_eco = exTobitModel,
 #'  database = exData,
 #'  residuals = FALSE)
 #' coa <- getCoalitions(factors_list = factors)
 #' getShapleyDistrib(
 #'  model_eco = exTobitModel,
-#'  model = "outcome",
+#'  equation = "outcome",
 #'  database = exData)
-getShapleyDistrib <- function(model_eco, database, model){
+getShapleyDistrib <- function(model_eco, database, equation){
   if(class(model_eco)[1] == "glm"){
     database <- stats::na.omit(database)
   }
@@ -30,7 +30,7 @@ getShapleyDistrib <- function(model_eco, database, model){
     mXOutcome <- stats::model.matrix(form, mf)
   }
   if(class(model_eco)[1] == "selection"){
-    if (model == "selection"){
+    if (equation == "selection"){
       temp <- eval(model_eco$call$selection)
       form <- stats::as.formula(temp)[-2]
       mf <- stats::model.frame(form, data = database)
