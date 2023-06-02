@@ -1,3 +1,3 @@
-# shapleyDecompo (development version)
+# shapleyDecompo 0.1.0
 
 * Initial CRAN submission.
