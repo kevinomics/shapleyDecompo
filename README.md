@@ -13,6 +13,10 @@ You can install the development version of `shapleyDecompo` from
 [GitHub](https://github.com/) with:
 
 ``` r
+# from CRAN
+install.packages("devRate")
+
+# Or the development version from GitHub:
 # install.packages("devtools")
 devtools::install_github("kevinomics/shapleyDecompo")
 ```

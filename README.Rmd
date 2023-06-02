@@ -23,6 +23,10 @@ The goal of `shapleyDecompo` is to compute the Shapley decomposition of the ineq
 You can install the development version of `shapleyDecompo` from [GitHub](https://github.com/) with:
 
 ``` r
+# from CRAN
+install.packages("devRate")
+
+# Or the development version from GitHub:
 # install.packages("devtools")
 devtools::install_github("kevinomics/shapleyDecompo")
 ```
