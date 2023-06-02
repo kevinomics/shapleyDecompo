@@ -3,48 +3,66 @@
 #' @param inequality A vector containing all inequalities.
 #' @param coalitions A data.frame with all coalitions used for the computation of the inequality.
 #' @param nVar The number of factors.
+#' @param wMC  All marginal contributions are weighted according to the Shapley weights (default, wMC=T), but the user might want non-weighted marginal contributions.
 #'
 #' @return A data.frame with the marginal contributions and inequalities for all attributes.
 #' @export
 #'
 #' @examples
-#'factors <- getFactorList(
-#'  equation = "outcome",
-#'  model_eco = exTobitModel,
-#'  database = exData,
-#'  residuals = FALSE)
-#'coa <- getCoalitions(factors_list = factors)
-#'distrib <- getShapleyDistrib(
-#'  model_eco = exTobitModel,
-#'  equation = "outcome",
-#'  database = exData)
-#'ineq <- vector()
-#'for(i in 1:3){
+#' data(Mroz87)
+#' exTobitModel <- sampleSelection::selection(lfp ~ age + I(age^2) + faminc + kids5 + educ,
+#'     wage ~ exper + I(exper^2) + educ + city,
+#'     data = Mroz87)
+#' factors <- getFactorList(
+#'   equation = "outcome",
+#'   model_eco = exTobitModel,
+#'   database = Mroz87)
+#' coa <- getCoalitions(factors_list = factors)
+#' distrib <- getShapleyDistrib(
+#'   model_eco = exTobitModel,
+#'   equation = "outcome",
+#'   database = Mroz87)
+#' ineq <- vector()
+#' for(i in 1:nrow(coa)){
 #'  ineq[i] <- getInequality(
-#'    coalition = coa[i, ],
-#'    factors_list = factors,
-#'    model_eco = exTobitModel,
-#'    equation = "outcome",
-#'    measure = Atkinson,
-#'    database = exData,
-#'    transfo = exp,
-#'    mXOutcome = distrib,
-#'    correction = NA,
-#'    errors = NA,
-#'    equaGame = FALSE,
-#'    theta = 1,
-#'    weights = exData$extridf)
-#'}
-#'getMarginalContrib(
-#'  inequality = ineq,
-#'  coalitions = coa,
-#'  nVar = length(factors))
-getMarginalContrib <- function(inequality, coalitions, nVar){
+#'   coalition = coa[i, ],
+#'   factors_list = factors,
+#'   model_eco = exTobitModel,
+#'   equation = "outcome",
+#'   measure = Gini_w,
+#'   database = Mroz87,
+#'   transfo = NULL,
+#'   mXOutcome = distrib,
+#'   correction = NA,
+#'   errors = NA,
+#'   equaGame = FALSE,
+#'   theta = NULL,
+#'   weights = rep(1, nrow(Mroz87)))
+#' }
+#' getMarginalContrib(
+#'   inequality = ineq,
+#'   coalitions = coa,
+#'   nVar = length(factors),
+#'   wMC=T)
+getMarginalContrib <- function(inequality, coalitions, nVar, wMC=T){
   coa <- coalitions
   coaux <- coalitions
   coaux$name <- inequality
   colnames(coaux)[ncol(coaux)] <- "ineq"
   n <- nVar
+  #Weithed marginal contribution
+  if (wMC == TRUE) {
+    wMC_f <- function(n, s) {
+      wMC <- (factorial(s - 1) * factorial(n - s)) / factorial(n)
+      return(wMC)
+    }
+  } else {
+    wMC_f <- function(n, s) {
+      wMC <- 1
+      return(wMC)
+    }
+  }
+
   #Compute the marginal contributions:
   #For each attribute i and each coalition j
   #Compute the difference of inequality when i is in j and when it is no longer
@@ -62,7 +80,7 @@ getMarginalContrib <- function(inequality, coalitions, nVar){
         }
         s <- length(which(coa[j, 1:n] != 0))
         #Use the shapley weight : it gives the shapley weigthed marginal contribution
-        coaux[j, i] <- (factorial(s - 1) * factorial(n - s)) / factorial(n) * (inequality[j] - ineq_out)
+        coaux[j, i] <- wMC_f(n,s) * (inequality[j] - ineq_out)
       }
     }
   }

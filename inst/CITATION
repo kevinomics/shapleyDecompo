@@ -3,7 +3,7 @@ note <- sprintf("R package version %s", meta$Version)
 
 bibentry(bibtype = "Manual",
   title = "shapleyDecompo: Compute a Regression-Based Shapley Decomposition for Inequality Measures",
-  author = personList(as.person("Kevin Fourrey"), as.person("Baptiste Regnier")),
+  author = c("Kevin Fourrey", "Baptiste Regnier"),
   year = year,
   note = note,
   url = "https://github.com/kevinomics/shapleyDecompo/")

@@ -21,29 +21,33 @@
 #' @export
 #'
 #' @examples
+#' data(Mroz87)
+#' exTobitModel <- sampleSelection::selection(lfp ~ age + I(age^2) + faminc + kids5 + educ,
+#'     wage ~ exper + I(exper^2) + educ + city,
+#'     data = Mroz87)
 #' factors <- getFactorList(
 #'   equation = "outcome",
 #'   model_eco = exTobitModel,
-#'   database = exData)
+#'   database = Mroz87)
 #' coa <- getCoalitions(factors_list = factors)
 #' distrib <- getShapleyDistrib(
 #'   model_eco = exTobitModel,
 #'   equation = "outcome",
-#'   database = exData)
+#'   database = Mroz87)
 #' getInequality(
 #'   coalition = coa[1, ],
 #'   factors_list = factors,
 #'   model_eco = exTobitModel,
 #'   equation = "outcome",
-#'   measure = Atkinson,
-#'   database = exData,
-#'   transfo = exp,
+#'   measure = Gini_w,
+#'   database = Mroz87,
+#'   transfo = NULL,
 #'   mXOutcome = distrib,
 #'   correction = NA,
 #'   errors = NA,
 #'   equaGame = FALSE,
-#'   theta = 1,
-#'   weights = exData$extridf)
+#'   theta = NULL,
+#'   weights = rep(1, nrow(Mroz87)))
 getInequality <- function(coalition,
                           factors_list,
                           model_eco,

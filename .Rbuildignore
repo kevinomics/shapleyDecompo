@@ -1,4 +1,5 @@
 ^shapleyDecompo\.Rproj$
 ^\.Rproj\.user$
 ^LICENSE\.md$
-^test_shapleyPackage\.R$
+^README\.Rmd$
+^cran-comments\.md$

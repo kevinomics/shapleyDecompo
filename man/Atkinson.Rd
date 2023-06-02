@@ -2,7 +2,7 @@
 % Please edit documentation in R/inequality_w.R
 \name{Atkinson}
 \alias{Atkinson}
-\title{Atkinson}
+\title{Compute Atkinson's measure of inequality}
 \usage{
 Atkinson(distri, weights, theta)
 }
@@ -17,5 +17,11 @@ Atkinson(distri, weights, theta)
 A value of inequality.
 }
 \description{
-Atkinson
+Compute Atkinson's measure of inequality
+}
+\examples{
+distri <- rnorm(mean = 20, n = 100)
+weights <- rep(1, 100)
+theta <- 1
+Atkinson(distri, weights, theta)
 }

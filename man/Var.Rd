@@ -2,7 +2,7 @@
 % Please edit documentation in R/inequality_w.R
 \name{Var}
 \alias{Var}
-\title{Var}
+\title{Compute Var measure of inequality}
 \usage{
 Var(distri, weights)
 }
@@ -15,5 +15,10 @@ Var(distri, weights)
 A value of inequality.
 }
 \description{
-Var
+Compute Var measure of inequality
+}
+\examples{
+distri <- rnorm(mean = 20, n = 100)
+weights <- rep(1, 100)
+Var(distri, weights)
 }

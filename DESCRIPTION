@@ -2,7 +2,7 @@ Package: shapleyDecompo
 Title: Compute a Regression-Based Shapley Decomposition for Inequality Measures
 Version: 0.0.0.9000
 Authors@R: c(
-    person("Kevin", "Fourrey", email = "kevin.fourrey@u-pec.fr", role = c("aut", "cre")),
+    person("Kevin", "Fourrey", email = "kevin.fourrey@u-pec.fr", role = c("aut", "cre", "cph")),
     person("Baptiste", "Regnier", email = "bregnier21@gmail.com", role = "aut"))
 Description: A set of functions to compute a regression-based Shapley 
     decomposition for inequality measures from an econometric model.
@@ -13,9 +13,7 @@ RoxygenNote: 7.2.3
 Depends: 
     R (>= 3.5.0),
     sampleSelection
-LazyData: true
 Suggests: 
-    GiniWegNeg,
     testthat (>= 3.0.0)
 Imports: stats
 Config/testthat/edition: 3
