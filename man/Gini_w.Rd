@@ -2,7 +2,7 @@
 % Please edit documentation in R/inequality_w.R
 \name{Gini_w}
 \alias{Gini_w}
-\title{Gini_w}
+\title{Compute weighted Gini's measure of inequality}
 \usage{
 Gini_w(distri, weights)
 }
@@ -15,5 +15,10 @@ Gini_w(distri, weights)
 A value of inequality.
 }
 \description{
-Gini_w
+Compute weighted Gini's measure of inequality
+}
+\examples{
+distri <- rnorm(mean = 20, n = 100)
+weights <- rep(1, 100)
+Gini_w(distri, weights)
 }

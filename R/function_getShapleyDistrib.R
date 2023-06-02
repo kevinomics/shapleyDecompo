@@ -8,16 +8,19 @@
 #'
 #' @export
 #' @examples
-#' factors <- getFactorList(
-#'  equation = "outcome",
-#'  model_eco = exTobitModel,
-#'  database = exData,
-#'  residuals = FALSE)
+#' data(Mroz87)
+#' exTobitModel <- sampleSelection::selection(lfp ~ age + I(age^2) + faminc + kids5 + educ,
+#'     wage ~ exper + I(exper^2) + educ + city,
+#'     data = Mroz87)
+#' factors <- getFactorList(model_eco = exTobitModel,
+#'               database = Mroz87,
+#'               residuals = TRUE,
+#'               equation = "outcome")
 #' coa <- getCoalitions(factors_list = factors)
 #' getShapleyDistrib(
 #'  model_eco = exTobitModel,
 #'  equation = "outcome",
-#'  database = exData)
+#'  database = Mroz87)
 getShapleyDistrib <- function(model_eco, database, equation){
   if(class(model_eco)[1] == "glm"){
     database <- stats::na.omit(database)

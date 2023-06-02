@@ -46,14 +46,18 @@ Returns a list with: 1) The Shapley value for each attribute, 2) The pure margin
 Compute the Shapley decomposition of the inequality of an outcome variable across different attributes from an econometric model.
 }
 \examples{
-shapleyDecompo(database = exData,
+data(Mroz87)
+exTobitModel <- sampleSelection::selection(lfp ~ age + I(age^2) + faminc + kids5 + educ,
+    wage ~ exper + I(exper^2) + educ + city,
+    data = Mroz87)
+shapleyDecompo(database = Mroz87,
                model_eco = exTobitModel,
                equation = "outcome",
                equaGame = TRUE,
                correction = NA,
-               data_weights = exData$extridf,
+               data_weights = rep(1, nrow(Mroz87)),
                residuals = TRUE,
-               transfo = exp,
-               measure = Atkinson,
-               theta = 1)
+               transfo = NULL,
+               measure = Gini_w,
+               theta = NULL)
 }

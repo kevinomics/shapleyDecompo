@@ -5,12 +5,16 @@
 #' @param equation Either the "selection" equation or the "outcome" equation from a Tobit II model.
 #' @param residuals Whether residuals are considered or not.
 #'
-#' @return A list of factors.
+#' @return The list of factors in the model.
 #' @export
 #'
 #' @examples
+#' data(Mroz87)
+#' exTobitModel <- sampleSelection::selection(lfp ~ age + I(age^2) + faminc + kids5 + educ,
+#'     wage ~ exper + I(exper^2) + educ + city,
+#'     data = Mroz87)
 #' getFactorList(model_eco = exTobitModel,
-#'               database = exData,
+#'               database = Mroz87,
 #'               residuals = TRUE,
 #'               equation = "outcome")
 getFactorList <- function(model_eco, database, residuals = FALSE, equation){

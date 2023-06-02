@@ -16,14 +16,18 @@ getFactorList(model_eco, database, residuals = FALSE, equation)
 \item{equation}{Either the "selection" equation or the "outcome" equation from a Tobit II model.}
 }
 \value{
-A list of factors.
+The list of factors in the model.
 }
 \description{
 Extract the list of factors from an econometric model
 }
 \examples{
+data(Mroz87)
+exTobitModel <- sampleSelection::selection(lfp ~ age + I(age^2) + faminc + kids5 + educ,
+    wage ~ exper + I(exper^2) + educ + city,
+    data = Mroz87)
 getFactorList(model_eco = exTobitModel,
-              database = exData,
+              database = Mroz87,
               residuals = TRUE,
               equation = "outcome")
 }

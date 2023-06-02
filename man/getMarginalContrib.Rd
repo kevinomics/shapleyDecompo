@@ -20,35 +20,38 @@ A data.frame with the marginal contributions and inequalities for all attributes
 Compute the marginal contributions of each attribute in all coalitions.
 }
 \examples{
+data(Mroz87)
+exTobitModel <- sampleSelection::selection(lfp ~ age + I(age^2) + faminc + kids5 + educ,
+    wage ~ exper + I(exper^2) + educ + city,
+    data = Mroz87)
 factors <- getFactorList(
- equation = "outcome",
- model_eco = exTobitModel,
- database = exData,
- residuals = FALSE)
+  equation = "outcome",
+  model_eco = exTobitModel,
+  database = Mroz87)
 coa <- getCoalitions(factors_list = factors)
 distrib <- getShapleyDistrib(
- model_eco = exTobitModel,
- equation = "outcome",
- database = exData)
+  model_eco = exTobitModel,
+  equation = "outcome",
+  database = Mroz87)
 ineq <- vector()
-for(i in 1:3){
+for(i in 1:nrow(coa)){
  ineq[i] <- getInequality(
-   coalition = coa[i, ],
-   factors_list = factors,
-   model_eco = exTobitModel,
-   equation = "outcome",
-   measure = Atkinson,
-   database = exData,
-   transfo = exp,
-   mXOutcome = distrib,
-   correction = NA,
-   errors = NA,
-   equaGame = FALSE,
-   theta = 1,
-   weights = exData$extridf)
+  coalition = coa[i, ],
+  factors_list = factors,
+  model_eco = exTobitModel,
+  equation = "outcome",
+  measure = Gini_w,
+  database = Mroz87,
+  transfo = NULL,
+  mXOutcome = distrib,
+  correction = NA,
+  errors = NA,
+  equaGame = FALSE,
+  theta = NULL,
+  weights = rep(1, nrow(Mroz87)))
 }
 getMarginalContrib(
- inequality = ineq,
- coalitions = coa,
- nVar = length(factors))
+  inequality = ineq,
+  coalitions = coa,
+  nVar = length(factors))
 }

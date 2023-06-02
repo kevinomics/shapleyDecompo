@@ -2,7 +2,7 @@
 % Please edit documentation in R/inequality_w.R
 \name{Kolm}
 \alias{Kolm}
-\title{Kolm}
+\title{Compute Kolm's measure of inequality}
 \usage{
 Kolm(distri, weights, theta)
 }
@@ -17,5 +17,11 @@ Kolm(distri, weights, theta)
 A value of inequality.
 }
 \description{
-Kolm
+Compute Kolm's measure of inequality
+}
+\examples{
+distri <- rnorm(mean = 20, n = 100)
+weights <- rep(1, 100)
+theta <- 1
+Kolm(distri, weights, theta)
 }

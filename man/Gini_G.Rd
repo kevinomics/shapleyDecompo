@@ -2,7 +2,7 @@
 % Please edit documentation in R/inequality_w.R
 \name{Gini_G}
 \alias{Gini_G}
-\title{Gini_G}
+\title{Compute generalized Gini's measure of inequality}
 \usage{
 Gini_G(distri, theta, weights)
 }
@@ -17,5 +17,11 @@ Gini_G(distri, theta, weights)
 A value of inequality.
 }
 \description{
-Gini_G
+Compute generalized Gini's measure of inequality
+}
+\examples{
+distri <- rnorm(mean = 20, n = 100)
+weights <- rep(1, 100)
+theta <- 1
+Gini_G(distri, weights, theta)
 }

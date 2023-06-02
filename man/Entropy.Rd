@@ -19,3 +19,9 @@ A value of inequality.
 \description{
 Compute entropy measure of inequality
 }
+\examples{
+distri <- rnorm(mean = 20, n = 100)
+weights <- rep(1, 100)
+theta <- 1
+Entropy(distri, weights, theta)
+}
