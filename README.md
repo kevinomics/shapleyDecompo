@@ -9,7 +9,7 @@ an econometric model.
 
 ## Installation instructions
 
-You can install the development version of shapleyDecompo from
+You can install the development version of `shapleyDecompo` from
 [GitHub](https://github.com/) with:
 
 ``` r
@@ -30,32 +30,39 @@ library("shapleyDecompo")
 ```
 
 ``` r
-shapleyDecompo(database = exData,
+data(Mroz87)
+exTobitModel <- sampleSelection::selection(
+  lfp ~ age + I(age^2) + faminc + kids5 + educ,
+  wage ~ exper + I(exper^2) + educ + city,
+  data = Mroz87)
+shapleyDecompo(database = Mroz87,
                model_eco = exTobitModel,
                equation = "outcome",
                equaGame = TRUE,
                correction = NA,
-               data_weights = exData$extridf,
+               data_weights = rep(1, nrow(Mroz87)),
                residuals = TRUE,
-               transfo = exp,
-               measure = Atkinson,
-               theta = 1)
+               transfo = NULL,
+               measure = Gini_w,
+               theta = NULL)
 #> $IMPORTANCE
-#>                  SEXE  POT_EXP  Residuals       ineq
-#> shapley    -0.4665829 0.486386 0.07776029 0.09756347
-#> shapleyRel -4.7823522 4.985330 0.79702261 1.00000000
+#>                exper      educ       city Residuals      ineq
+#> shapley    0.1601363 0.1646356 -0.0991494 0.1351867 0.3608091
+#> shapleyRel 0.4438255 0.4562955 -0.2747974 0.3746764 1.0000000
 #> 
 #> $INTERACTIONS
-#>                 SEXE      POT_EXP   Residuals
-#> SEXE      -0.9024365 -0.467023958  0.03117030
-#> POT_EXP   -0.4670240  0.003769765 -0.01559232
-#> Residuals  0.0311703 -0.015592320  0.09333827
+#>                  exper       educ          city   Residuals
+#> exper      0.461500220 0.25692027 -0.0067629221  0.05120659
+#> educ       0.256920271 0.66178250  0.1866944840  0.05353218
+#> city      -0.006762922 0.18669448 -0.0006002239 -0.08138238
+#> Residuals  0.051206594 0.05353218 -0.0813823840  0.15854305
 #> 
 #> $INTERACTIONS_r
-#>                 SEXE    POT_EXP  Residuals
-#> SEXE      -9.2497381 -4.7868733  0.3194874
-#> POT_EXP   -4.7868733  0.0386391 -0.1598172
-#> Residuals  0.3194874 -0.1598172  0.9566928
+#>                 exper      educ        city  Residuals
+#> exper      1.27907033 0.7120670 -0.01874377  0.1419216
+#> educ       0.71206704 1.8341624  0.51743285  0.1483670
+#> city      -0.01874377 0.5174329 -0.00166355 -0.2255552
+#> Residuals  0.14192157 0.1483670 -0.22555524  0.4394098
 ```
 
 ## Citation
