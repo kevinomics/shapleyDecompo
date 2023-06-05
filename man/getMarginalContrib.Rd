@@ -4,7 +4,7 @@
 \alias{getMarginalContrib}
 \title{Compute the marginal contributions of each attribute in all coalitions.}
 \usage{
-getMarginalContrib(inequality, coalitions, nVar)
+getMarginalContrib(inequality, coalitions, nVar, wMC = TRUE)
 }
 \arguments{
 \item{inequality}{A vector containing all inequalities.}
@@ -12,6 +12,8 @@ getMarginalContrib(inequality, coalitions, nVar)
 \item{coalitions}{A data.frame with all coalitions used for the computation of the inequality.}
 
 \item{nVar}{The number of factors.}
+
+\item{wMC}{All marginal contributions are weighted according to the Shapley weights (default, wMC=T), but the user might want non-weighted marginal contributions.}
 }
 \value{
 A data.frame with the marginal contributions and inequalities for all attributes.
@@ -53,5 +55,6 @@ for(i in 1:nrow(coa)){
 getMarginalContrib(
   inequality = ineq,
   coalitions = coa,
-  nVar = length(factors))
+  nVar = length(factors),
+  wMC = TRUE)
 }

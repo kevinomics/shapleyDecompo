@@ -43,8 +43,8 @@
 #'   inequality = ineq,
 #'   coalitions = coa,
 #'   nVar = length(factors),
-#'   wMC=T)
-getMarginalContrib <- function(inequality, coalitions, nVar, wMC=T){
+#'   wMC = TRUE)
+getMarginalContrib <- function(inequality, coalitions, nVar, wMC = TRUE){
   coa <- coalitions
   coaux <- coalitions
   coaux$name <- inequality
