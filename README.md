@@ -63,7 +63,7 @@ shapleyDecompo(database = Mroz87,
 #> city  0.009142199 0.01872697 0.035386257
 ```
 
-The function `shapleyDecompo()` is wrap function of several functions
+The function `shapleyDecompo()` is a wrap function of several functions
 used to compute the decomposition:
 
 1.  The function `getFactorList()` is used to extract the list of
@@ -113,8 +113,8 @@ distrib <- getShapleyDistrib(model_eco = exTobitModel,
 
 4.  The function `getInequality()` is used to compute the inequality for
     a given coalition. Several functions in the package can be used to
-    compute corresponding measures (see `?Atkinson()`, `?Gini_G()`,
-    `?Gini_w()`, `?Var()`, `?Entropy()`, `?Kolm()`).
+    compute corresponding inequality measures (see `?Atkinson()`,
+    `?Gini_G()`, `?Gini_w()`, `?Var()`, `?Entropy()`, `?Kolm()`).
 
 ``` r
 getInequality(coalition = coa[1, ],
