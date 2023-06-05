@@ -57,10 +57,10 @@ getInequality <- function(coalition,
                           transfo = NULL,
                           mXOutcome,
                           correction = NA,
-                          errors,
+                          errors = NA,
                           equaGame = FALSE,
                           theta = NULL,
-                          weights){
+                          weights = rep(1, nrow(database))){
   database$weights <- weights
   if(class(model_eco)[1] == "glm"){
     database <- stats::na.omit(database)
