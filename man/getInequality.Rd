@@ -14,10 +14,10 @@ getInequality(
   transfo = NULL,
   mXOutcome,
   correction = NA,
-  errors,
+  errors = NA,
   equaGame = FALSE,
   theta = NULL,
-  weights
+  weights = rep(1, nrow(database))
 )
 }
 \arguments{
