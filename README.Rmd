@@ -14,25 +14,15 @@ knitr::opts_chunk$set(
 Sys.setenv(LANGUAGE="en")
 ```
 
-# Purpose of the package
+## Purpose of the package
 
 The goal of `shapleyDecompo` is to compute the Shapley decomposition of the inequality of an outcome variable across different attributes from an econometric model.
 
 ## Installation instructions
 
-<<<<<<< HEAD
-You can install the development version of shapleyDecompo from [GitHub](https://github.com/) with:
+You can install the development version of `shapleyDecompo` from [GitHub](https://github.com/kevinomics/shapleyDecompo) with:
 
 ``` r
-=======
-You can install the development version of `shapleyDecompo` from [GitHub](https://github.com/) with:
-
-``` r
-# from CRAN
-install.packages("devRate")
-
-# Or the development version from GitHub:
->>>>>>> da36b1fcbf3720a277536c7ac66662337be78606
 # install.packages("devtools")
 devtools::install_github("kevinomics/shapleyDecompo")
 ```
@@ -46,34 +36,94 @@ library("shapleyDecompo")
 ```
 
 ```{r example}
-<<<<<<< HEAD
-shapleyDecompo(database = exData,
-=======
 data(Mroz87)
 exTobitModel <- sampleSelection::selection(
   lfp ~ age + I(age^2) + faminc + kids5 + educ,
   wage ~ exper + I(exper^2) + educ + city,
   data = Mroz87)
 shapleyDecompo(database = Mroz87,
->>>>>>> da36b1fcbf3720a277536c7ac66662337be78606
                model_eco = exTobitModel,
                equation = "outcome",
                equaGame = TRUE,
                correction = NA,
-<<<<<<< HEAD
-               data_weights = exData$extridf,
-               residuals = TRUE,
-               transfo = exp,
-               measure = Atkinson,
-               theta = 1)
-=======
                data_weights = rep(1, nrow(Mroz87)),
                residuals = TRUE,
                transfo = NULL,
                measure = Gini_w,
                theta = NULL)
->>>>>>> da36b1fcbf3720a277536c7ac66662337be78606
 ```
+
+The function `shapleyDecompo()` is wrap function of several functions used to compute the decomposition.
+
+The function `getFactorList()` is used to extract the list of factors in the model.
+```{r getFactorList}
+factors <- getFactorList(
+   equation = "outcome",
+   model_eco = exTobitModel,
+   database = Mroz87)
+factors
+```
+
+The function `getCoalitions()` is used to obtain all possible coalitions from a list of factors.
+```{r getCoalitions}
+coa <- getCoalitions(factors_list = factors)
+coa
+```
+
+The function `getShapleyDistrib()` is used to obtain the model matrix needed to perform the decomposition.
+```{r getShapleyDistrib}
+distrib <- getShapleyDistrib(model_eco = exTobitModel,
+                             database = Mroz87,
+                             equation = "outcome")
+```
+
+The function `getInequality()` is used to compute the inequality for a given coalition.  Several functions in the package can be used to compute corresponding measures (see `?Atkinson()`, `?Gini_G()`, `?Gini_w()`, `?Var()`, `?Entropy()`, `?Kolm()`).
+```{r getInequality}
+getInequality(coalition = coa[1, ],
+              factors_list = factors,
+              model_eco = exTobitModel,
+              equation = "outcome",
+              measure = Kolm,
+              database = Mroz87,
+              mXOutcome = distrib,
+              theta = 1)
+```
+The function `getInequality()` can be used in a loop to compute the inequalities of all coalitions.
+
+```{r getInequalitLoop}
+ineq <- vector()
+for(i in 1:nrow(coa)){
+  ineq[i] <- getInequality(coalition = coa[i, ],
+              factors_list = factors,
+              model_eco = exTobitModel,
+              equation = "outcome",
+              measure = Kolm,
+              database = Mroz87,
+              mXOutcome = distrib,
+              theta = 1)
+}
+ineq
+```
+The function `getMarginalContrib()` can be used to compute the marginal contributions of each attribute in all coalitions.
+
+```{r getMarginalContrib}
+margContrib <- getMarginalContrib(inequality = ineq,
+                   coalitions = coa,
+                   nVar = length(factors),
+                   wMC = TRUE)
+margContrib
+```
+The function `getShapleyVal()` can be used to compute the Shapley values from marginal contributions of attributes.
+```{r }
+getShapleyVal(marginalContrib = margContrib)
+```
+The function `getInteractionTerms()` can be used to extract the interaction terms from the marginal contributions of attributes in each coalition.
+```{r getInteractionTerms}
+getInteractionTerms(factors_list = factors,
+                    coalitions = coa,
+                    marginalContrib = margContrib)
+```
+
 
 ## Citation
 
