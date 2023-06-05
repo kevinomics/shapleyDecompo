@@ -44,10 +44,10 @@ exTobitModel <- sampleSelection::selection(
 shapleyDecompo(database = Mroz87,
                model_eco = exTobitModel,
                equation = "outcome",
-               equaGame = TRUE,
+               equaGame = FALSE,
                correction = NA,
                data_weights = rep(1, nrow(Mroz87)),
-               residuals = TRUE,
+               residuals = FALSE,
                transfo = NULL,
                measure = Gini_w,
                theta = NULL)
@@ -60,7 +60,8 @@ The function `shapleyDecompo()` is wrap function of several functions used to co
 factors <- getFactorList(
    equation = "outcome",
    model_eco = exTobitModel,
-   database = Mroz87)
+   database = Mroz87,
+   residuals = FALSE)
 factors
 ```
 
@@ -82,10 +83,16 @@ distrib <- getShapleyDistrib(model_eco = exTobitModel,
 getInequality(coalition = coa[1, ],
               factors_list = factors,
               model_eco = exTobitModel,
+              equaGame = FALSE,
+              errors = NA,
               equation = "outcome",
               measure = Gini_w,
               database = Mroz87,
-              mXOutcome = distrib)
+              mXOutcome = distrib,
+              transfo = NULL,
+              correction = NA,
+              theta = NULL,
+              weights = rep(1, nrow(Mroz87)))
 ```
 The function `getInequality()` can be used in a loop to compute the inequalities of all coalitions.
 
@@ -95,10 +102,16 @@ for(i in 1:nrow(coa)){
   ineq[i] <- getInequality(coalition = coa[i, ],
               factors_list = factors,
               model_eco = exTobitModel,
+              equaGame = FALSE,
+              errors = NA,
               equation = "outcome",
               measure = Gini_w,
               database = Mroz87,
-              mXOutcome = distrib)
+              mXOutcome = distrib,
+              transfo = NULL,
+              correction = NA,
+              theta = NULL,
+              weights = rep(1, nrow(Mroz87)))
 }
 ineq
 ```

@@ -38,31 +38,29 @@ exTobitModel <- sampleSelection::selection(
 shapleyDecompo(database = Mroz87,
                model_eco = exTobitModel,
                equation = "outcome",
-               equaGame = TRUE,
+               equaGame = FALSE,
                correction = NA,
                data_weights = rep(1, nrow(Mroz87)),
-               residuals = TRUE,
+               residuals = FALSE,
                transfo = NULL,
                measure = Gini_w,
                theta = NULL)
 #> $IMPORTANCE
-#>                exper      educ       city Residuals      ineq
-#> shapley    0.1601363 0.1646356 -0.0991494 0.1351867 0.3608091
-#> shapleyRel 0.4438255 0.4562955 -0.2747974 0.3746764 1.0000000
+#>                exper      educ        city      ineq
+#> shapley    0.3265863 0.3492574 0.005118859 0.6809626
+#> shapleyRel 0.4795951 0.5128878 0.007517092 1.0000000
 #> 
 #> $INTERACTIONS
-#>                  exper       educ          city   Residuals
-#> exper      0.461500220 0.25692027 -0.0067629221  0.05120659
-#> educ       0.256920271 0.66178250  0.1866944840  0.05353218
-#> city      -0.006762922 0.18669448 -0.0006002239 -0.08138238
-#> Residuals  0.051206594 0.05353218 -0.0813823840  0.15854305
+#>             exper       educ        city
+#> exper 0.693653169 0.36084139 0.006225495
+#> educ  0.360841390 0.72285118 0.012752363
+#> city  0.006225495 0.01275236 0.024096716
 #> 
 #> $INTERACTIONS_r
-#>                 exper      educ        city  Residuals
-#> exper      1.27907033 0.7120670 -0.01874377  0.1419216
-#> educ       0.71206704 1.8341624  0.51743285  0.1483670
-#> city      -0.01874377 0.5174329 -0.00166355 -0.2255552
-#> Residuals  0.14192157 0.1483670 -0.22555524  0.4394098
+#>             exper       educ        city
+#> exper 1.018636271 0.52989901 0.009142199
+#> educ  0.529899011 1.06151382 0.018726966
+#> city  0.009142199 0.01872697 0.035386257
 ```
 
 The function `shapleyDecompo()` is wrap function of several functions
@@ -75,7 +73,8 @@ used to compute the decomposition:
 factors <- getFactorList(
    equation = "outcome",
    model_eco = exTobitModel,
-   database = Mroz87)
+   database = Mroz87,
+   residuals = FALSE)
 factors
 #> $exper
 #> [1] "exper"      "I(exper^2)"
@@ -121,10 +120,16 @@ distrib <- getShapleyDistrib(model_eco = exTobitModel,
 getInequality(coalition = coa[1, ],
               factors_list = factors,
               model_eco = exTobitModel,
+              equaGame = FALSE,
+              errors = NA,
               equation = "outcome",
               measure = Gini_w,
               database = Mroz87,
-              mXOutcome = distrib)
+              mXOutcome = distrib,
+              transfo = NULL,
+              correction = NA,
+              theta = NULL,
+              weights = rep(1, nrow(Mroz87)))
 #> [1] -0.02883296
 ```
 
@@ -137,10 +142,16 @@ for(i in 1:nrow(coa)){
   ineq[i] <- getInequality(coalition = coa[i, ],
               factors_list = factors,
               model_eco = exTobitModel,
+              equaGame = FALSE,
+              errors = NA,
               equation = "outcome",
               measure = Gini_w,
               database = Mroz87,
-              mXOutcome = distrib)
+              mXOutcome = distrib,
+              transfo = NULL,
+              correction = NA,
+              theta = NULL,
+              weights = rep(1, nrow(Mroz87)))
 }
 ineq
 #> [1] -0.028832965 -0.012688692  0.656865849 -0.002211362 -0.041888611
