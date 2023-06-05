@@ -66,10 +66,10 @@ shapleyDecompo(database = Mroz87,
 ```
 
 The function `shapleyDecompo()` is wrap function of several functions
-used to compute the decomposition.
+used to compute the decomposition:
 
-The function `getFactorList()` is used to extract the list of factors in
-the model.
+1.  The function `getFactorList()` is used to extract the list of
+    factors in the model.
 
 ``` r
 factors <- getFactorList(
@@ -87,8 +87,8 @@ factors
 #> [1] "city"
 ```
 
-The function `getCoalitions()` is used to obtain all possible coalitions
-from a list of factors.
+2.  The function `getCoalitions()` is used to obtain all possible
+    coalitions from a list of factors.
 
 ``` r
 coa <- getCoalitions(factors_list = factors)
@@ -103,8 +103,8 @@ coa
 #> 7     1    1    1  111
 ```
 
-The function `getShapleyDistrib()` is used to obtain the model matrix
-needed to perform the decomposition.
+3.  The function `getShapleyDistrib()` is used to obtain the model
+    matrix needed to perform the decomposition.
 
 ``` r
 distrib <- getShapleyDistrib(model_eco = exTobitModel,
@@ -112,21 +112,20 @@ distrib <- getShapleyDistrib(model_eco = exTobitModel,
                              equation = "outcome")
 ```
 
-The function `getInequality()` is used to compute the inequality for a
-given coalition. Several functions in the package can be used to compute
-corresponding measures (see `?Atkinson()`, `?Gini_G()`, `?Gini_w()`,
-`?Var()`, `?Entropy()`, `?Kolm()`).
+4.  The function `getInequality()` is used to compute the inequality for
+    a given coalition. Several functions in the package can be used to
+    compute corresponding measures (see `?Atkinson()`, `?Gini_G()`,
+    `?Gini_w()`, `?Var()`, `?Entropy()`, `?Kolm()`).
 
 ``` r
 getInequality(coalition = coa[1, ],
               factors_list = factors,
               model_eco = exTobitModel,
               equation = "outcome",
-              measure = Kolm,
+              measure = Gini_w,
               database = Mroz87,
-              mXOutcome = distrib,
-              theta = 1)
-#> [1] 0.05905898
+              mXOutcome = distrib)
+#> [1] -0.02883296
 ```
 
 The function `getInequality()` can be used in a loop to compute the
@@ -139,18 +138,17 @@ for(i in 1:nrow(coa)){
               factors_list = factors,
               model_eco = exTobitModel,
               equation = "outcome",
-              measure = Kolm,
+              measure = Gini_w,
               database = Mroz87,
-              mXOutcome = distrib,
-              theta = 1)
+              mXOutcome = distrib)
 }
 ineq
-#> [1] 0.0590589800 0.0134484195 1.4306429142 0.0005982804 0.1186432101
-#> [6] 0.0134351911 1.4172637305
+#> [1] -0.028832965 -0.012688692  0.656865849 -0.002211362 -0.041888611
+#> [6] -0.012690603  0.680962566
 ```
 
-The function `getMarginalContrib()` can be used to compute the marginal
-contributions of each attribute in all coalitions.
+5.  The function `getMarginalContrib()` can be used to compute the
+    marginal contributions of each attribute in all coalitions.
 
 ``` r
 margContrib <- getMarginalContrib(inequality = ineq,
@@ -158,45 +156,45 @@ margContrib <- getMarginalContrib(inequality = ineq,
                    nVar = length(factors),
                    wMC = TRUE)
 margContrib
-#>        exper        educ          city         ineq
-#> 1 0.01968633 0.000000000  0.000000e+00 0.0590589800
-#> 2 0.00000000 0.004482806  0.000000e+00 0.0134484195
-#> 3 0.23619908 0.228597322  0.000000e+00 1.4306429142
-#> 4 0.00000000 0.000000000  1.994268e-04 0.0005982804
-#> 5 0.01967415 0.000000000  9.930705e-03 0.1186432101
-#> 6 0.00000000 0.002139485 -2.204738e-06 0.0134351911
-#> 7 0.46794285 0.432873507 -4.459728e-03 1.4172637305
+#>          exper         educ          city         ineq
+#> 1 -0.009610988  0.000000000  0.000000e+00 -0.028832965
+#> 2  0.000000000 -0.004229564  0.000000e+00 -0.012688692
+#> 3  0.111592424  0.114283136  0.000000e+00  0.656865849
+#> 4  0.000000000  0.000000000 -7.371206e-04 -0.002211362
+#> 5 -0.006612875  0.000000000 -2.175941e-03 -0.041888611
+#> 6  0.000000000 -0.001746540 -3.185278e-07 -0.012690603
+#> 7  0.231217723  0.240950392  8.032239e-03  0.680962566
 ```
 
-The function `getShapleyVal()` can be used to compute the Shapley values
-from marginal contributions of attributes.
+6.  The function `getShapleyVal()` can be used to compute the Shapley
+    values from marginal contributions of attributes.
 
 ``` r
 getShapleyVal(marginalContrib = margContrib)
-#>                exper      educ        city     ineq
-#> shapley    0.7435024 0.6680931 0.005668199 1.417264
-#> shapleyRel 0.5246041 0.4713965 0.003999396 1.000000
+#>                exper      educ        city      ineq
+#> shapley    0.3265863 0.3492574 0.005118859 0.6809626
+#> shapleyRel 0.4795951 0.5128878 0.007517092 1.0000000
 ```
 
-The function `getInteractionTerms()` can be used to extract the
-interaction terms from the marginal contributions of attributes in each
-coalition.
+7.  The function `getInteractionTerms()` can be used to extract the
+    interaction terms from the marginal contributions of attributes in
+    each coalition.
 
 ``` r
 getInteractionTerms(factors_list = factors,
                     coalitions = coa,
                     marginalContrib = margContrib)
 #> $INTERACTIONS
-#>             exper        educ         city
-#> exper 1.403828539  0.65495046  0.005375673
-#> educ  0.654950456  1.29862052 -0.024423056
-#> city  0.005375673 -0.02442306 -0.013379184
+#>             exper       educ        city
+#> exper 0.693653169 0.36084139 0.006225495
+#> educ  0.360841390 0.72285118 0.012752363
+#> city  0.006225495 0.01275236 0.024096716
 #> 
 #> $INTERACTIONS_r
-#>             exper        educ         city
-#> exper 0.990520331  0.46212320  0.003792994
-#> educ  0.462123204  0.91628713 -0.017232542
-#> city  0.003792994 -0.01723254 -0.009440151
+#>             exper       educ        city
+#> exper 1.018636271 0.52989901 0.009142199
+#> educ  0.529899011 1.06151382 0.018726966
+#> city  0.009142199 0.01872697 0.035386257
 ```
 
 ## Citation
