@@ -247,16 +247,16 @@ getInequality <- function(coalition,
                                               list_moda_all_in])
     colnames(mXOutcome_in) <- colnames(mXOutcome)[colnames(mXOutcome) %in%
                                                     list_moda_all_in]
-    mXOutcomeC <- cbind(mXOutcome[, 1], mXOutcome_in, mXOutcome_out)
-    colnames(mXOutcomeC)[1] <- "(Intercept)"
+    mXOutcomeC <- mXOutcome
+    mXOutcomeC[, list_moda_all_in] <- unlist(mXOutcome_in)
+    mXOutcomeC[, list_moda_all_out] <- unlist(mXOutcome_out)
   }else{
     mXOutcome_in <- as.data.frame(mXOutcome[, colnames(mXOutcome) %in%
                                               list_moda_all_in])
     colnames(mXOutcome_in) <- colnames(mXOutcome)[colnames(mXOutcome) %in%
                                                     list_moda_all_in]
-    mXOutcomeC <- cbind(mXOutcome[,"(Intercept)" ], mXOutcome_in)
-    colnames(mXOutcomeC) <- c("(Intercept)", colnames(mXOutcomeC)[-1])
-    colnames(mXOutcomeC)[1] <- "(Intercept)"
+    mXOutcomeC <- mXOutcome
+    mXOutcomeC[, list_moda_all_in] <- unlist(mXOutcome_in)
   }
 
   # If there are cross terms, if the considered variable interacts and if this
